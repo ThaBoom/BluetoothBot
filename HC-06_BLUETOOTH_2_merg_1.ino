@@ -1,0 +1,129 @@
+// https://www.instructables.com/Arduino-Bluetooth-RC-Car-Android-Controlled/
+// check instructables for  
+/*
+ * Created by Vasilakis Michalis // 12-12-2014 ver.1
+ * Project: Control RC Car via Bluetooth with Android Smartphone
+ * http://www.ardumotive.com/arduino-car
+ * More information at www.ardumotive.com
+ */
+ 
+//L293 Connection   
+    const int motorEnableLeft = 9;     // Pin 1 of L293
+  const int motorForwardLeft  = 7;              // Pin  2 of L293
+  const int motorBackLeft  = 8;              // Pin  7 of L293 
+    const int motorEnableRight = 11;   // Pin 9 of L293      
+  const int motorForwardRight  = 11;             // Pin 10 of L293
+  const int motorBackRight  = 12;             // Pin 14 of L293
+  
+  //Variables for the Motors
+  const int leftMotorSpeed = 255;
+  const int rightMotorSpeed = 255;
+  const int delayTime = 150;
+
+//Bluetooth (HC-06 JY-MCU) State pin on pin 2 of Arduino
+  const int BTState = 2;
+
+// Use it to make a delay... without delay() function!
+  long previousMillis = -1000*10;// -1000*10=-10sec. to read the first value. If you use 0 then you will take the first value after 10sec.  
+  long interval = 1000*10;       // interval at which to read battery voltage, change it if you want! (10*1000=10sec)
+  unsigned long currentMillis;   //unsigned long currentMillis;
+  
+//Useful Variables
+  int i=0;
+  int j=0;
+  int state;
+  
+ void stop() {
+  digitalWrite(motorForwardLeft, LOW);
+  digitalWrite(motorBackLeft, LOW);
+  digitalWrite(motorForwardRight, LOW);
+  digitalWrite(motorBackRight, LOW);
+  analogWrite(motorEnableLeft, 0);
+  analogWrite(motorEnableRight, 0);
+}
+
+void BOT_ForwardFull () {
+  digitalWrite(motorForwardLeft, HIGH);
+  digitalWrite(motorBackLeft, LOW);
+  digitalWrite(motorForwardRight, HIGH);
+  digitalWrite(motorBackRight, LOW);
+  analogWrite(motorEnableLeft, leftMotorSpeed);
+  analogWrite(motorEnableRight, rightMotorSpeed);
+}
+
+void BOT_Left () {
+  digitalWrite(motorForwardLeft, LOW);
+  digitalWrite(motorBackLeft, LOW);
+  digitalWrite(motorForwardRight, HIGH);
+  digitalWrite(motorBackRight, LOW);
+  analogWrite(motorEnableLeft, 0);
+  analogWrite(motorEnableRight, rightMotorSpeed);
+}
+
+void BOT_Right () {
+  digitalWrite(motorForwardLeft, HIGH);
+  digitalWrite(motorBackLeft, LOW);
+  digitalWrite(motorForwardRight, LOW);
+  digitalWrite(motorBackRight, LOW);
+  analogWrite(motorEnableLeft, leftMotorSpeed);
+  analogWrite(motorEnableRight, 0);
+}
+
+void BOT_Back () {
+  digitalWrite(motorForwardLeft, LOW);
+  digitalWrite(motorBackLeft, HIGH);
+  digitalWrite(motorForwardRight, LOW);
+  digitalWrite(motorBackRight, HIGH);
+  analogWrite(motorEnableLeft, leftMotorSpeed);
+  analogWrite(motorEnableRight, rightMotorSpeed);
+}
+void setup() {
+    // Set pins as outputs:
+    pinMode(motorEnableLeft, OUTPUT);  
+    pinMode(motorEnableLeft, OUTPUT);
+    pinMode(motorForwardLeft, OUTPUT);
+    pinMode(motorBackLeft, OUTPUT);
+    pinMode(motorForwardRight, OUTPUT);
+    pinMode(motorBackRight, OUTPUT);
+    pinMode(BTState, INPUT);    
+    // Initialize serial communication at 9600 bits per second:
+    Serial.begin(9600);
+}
+ 
+void loop() {
+  //Stop car when connection lost or bluetooth disconnected
+     if(digitalRead(BTState)==LOW) { state='S'; }
+
+  //Save income data to variable 'state'
+    if(Serial.available() > 0){     
+      state = Serial.read();   
+    }
+  
+
+     
+  /***********************Forward****************************/
+  //If state is equal with letter 'F', car will go forward!
+    if (state == 'F') {
+      BOT_ForwardFull();
+    }
+   /***********************Backward****************************/
+  //If state is equal with letter 'B', car will go backward
+    else if (state == 'B') {
+
+    }
+   /***************************Left*****************************/
+  //If state is equal with letter 'L', wheels will turn left
+    else if (state == 'L') {
+
+    }
+  /***************************Right*****************************/
+  //If state is equal with letter 'R', wheels will turn right
+    else if (state == 'R') {
+   
+    }
+  /************************Stop*****************************/
+  //If state is equal with letter 'S', stop the car
+    else if (state == 'S'){
+
+}
+}
