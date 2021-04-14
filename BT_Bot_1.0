@@ -1,11 +1,3 @@
-// https://www.instructables.com/Arduino-Bluetooth-RC-Car-Android-Controlled/
-// check instructables for  
-/*
- * Created by Vasilakis Michalis // 12-12-2014 ver.1
- * Project: Control RC Car via Bluetooth with Android Smartphone
- * http://www.ardumotive.com/arduino-car
- * More information at www.ardumotive.com
- */
  
 //L293 Connection   
     const int motorEnableLeft = 9;     // Pin 1 of L293
