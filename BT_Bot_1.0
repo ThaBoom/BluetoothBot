@@ -1,11 +1,14 @@
+// SWARM BOTS STAND ALONE bt CONTROL 
+// HC-06 BLUETOOTH MODULATOR 
+// ARDUINO BLUETOOTH RC CAR APP FOR ANDROID 
  
 //L293 Connection   
     const int motorEnableLeft = 9;     // Pin 1 of L293
-  const int motorForwardLeft  = 7;              // Pin  2 of L293
-  const int motorBackLeft  = 8;              // Pin  7 of L293 
+  const int motorForwardLeft  = 7;     // Pin  2 of L293
+  const int motorBackLeft  = 8;        // Pin  7 of L293 
     const int motorEnableRight = 11;   // Pin 9 of L293      
-  const int motorForwardRight  = 11;             // Pin 10 of L293
-  const int motorBackRight  = 12;             // Pin 14 of L293
+  const int motorForwardRight  = 12;   // Pin 10 of L293
+  const int motorBackRight  = 10;      // Pin 14 of L293
   
   //Variables for the Motors
   const int leftMotorSpeed = 255;
@@ -25,7 +28,7 @@
   int j=0;
   int state;
   
- void stop() {
+ void BOT_Stop() {
   digitalWrite(motorForwardLeft, LOW);
   digitalWrite(motorBackLeft, LOW);
   digitalWrite(motorForwardRight, LOW);
@@ -83,8 +86,10 @@ void setup() {
 }
  
 void loop() {
+
+  // unknown if needed but save in case
   //Stop car when connection lost or bluetooth disconnected
-     if(digitalRead(BTState)==LOW) { state='S'; }
+  //    if(digitalRead(BTState)==LOW) { state='S'; }
 
   //Save income data to variable 'state'
     if(Serial.available() > 0){     
@@ -101,21 +106,21 @@ void loop() {
    /***********************Backward****************************/
   //If state is equal with letter 'B', car will go backward
     else if (state == 'B') {
-
+      BOT_Back();
     }
    /***************************Left*****************************/
   //If state is equal with letter 'L', wheels will turn left
     else if (state == 'L') {
-
+      BOT_Left();
     }
   /***************************Right*****************************/
   //If state is equal with letter 'R', wheels will turn right
     else if (state == 'R') {
-   
+      BOT_Right();
     }
   /************************Stop*****************************/
   //If state is equal with letter 'S', stop the car
     else if (state == 'S'){
-
+      BOT_Stop();
 }
 }
